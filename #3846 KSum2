@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+std::ifstream fin("ksum2.in");
+std::ofstream fout("ksum2.out");
+std::deque<int>dq;
+std::vector<int>v;
+int main()
+{
+    int maxi=INT_MIN;
+    int n,k,w;
+    fin>>n>>k>>w;
+    v.resize(n+1);
+    for(int i(1);i<=n;i++)
+    {
+        fin>>v[i];
+        v[i]+=v[i-1];
+    }
+    for(int i(k);i<=n;i++)
+    {
+        while(!dq.empty()&&v[i-k]<=v[dq.back()]){
+            dq.pop_back();
+        }
+        dq.push_back(i-k);
+        if(i-dq.front()>w)dq.pop_front();
+        maxi=std::max(maxi,v[i]-v[dq.front()]);
+    }
+    //fout<<'\n';
+    //for(int i=1;i<=140;i++)fout<<i<<"  ";
+    fout<<maxi;
+    return 0;
+}
